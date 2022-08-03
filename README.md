@@ -5,3 +5,7 @@ NIK Valid
 
 Password Valid
 12345678
+
+
+API Currency terdapat 2.
+Jika habis ada satus lagi.
