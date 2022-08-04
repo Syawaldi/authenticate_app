@@ -3,7 +3,8 @@ HOST https://febrisyawaldi.000webhostapp.com/ <br>
 
 NIK Valid
 1234567812345678
-
+ROLE
+Admin
 Password Valid
 12345678
 
