@@ -1,4 +1,5 @@
 <?php 
+    ini_set('date.timezone', 'Asia/Jakarta');
     include '../../vendor/autoload.php';
     use \Firebase\JWT\JWT;
     
@@ -46,11 +47,41 @@
     }
 
     function fetch_app(){
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL                 => 'https://60c18de74f7e880017dbfd51.mockapi.io/api/v1/jabar-digital-services/product',
+            CURLOPT_RETURNTRANSFER      => true,
+            CURLOPT_ENCODING            => '',
+            CURLOPT_MAXREDIRS           => 10,
+            CURLOPT_TIMEOUT             => 0,
+            CURLOPT_SSL_VERIFYHOST      => false,
+            CURLOPT_SSL_VERIFYPEER      => false,
+            CURLOPT_FOLLOWLOCATION      => true,
+            CURLOPT_HTTP_VERSION        => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST       => 'GET',
+        ));
+    
+        $response = curl_exec($curl);
+        if(curl_errno($curl)){
+            echo 'Curl error: ' . curl_error($curl);
+        }
         
-        $jumlah    = $_POST["jumlah"];
+        curl_close($curl);
+        $convert_data   = json_encode(json_decode($response));
+        $convert_data   = json_decode($convert_data, true);
+
+        // Random angka karena API nya tidak bisa POST kena limit Maksimum
+        $random_angka   = rand(0,9);
+        
+        $data_fetch     = $convert_data[$random_angka];
+        $data_price     = $convert_data[$random_angka]['price'];
+
         // --------------------------------------//
         // API KEY CONVERT CURRENCY HANYA 100 kali
-        $curl = curl_init();
+        $jumlah         = $data_price;
+        $curl           = curl_init();
 
         curl_setopt_array($curl, array(
         CURLOPT_URL => "https://api.apilayer.com/exchangerates_data/convert?to=IDR&from=USD&amount=$jumlah",
@@ -67,10 +98,16 @@
             CURLOPT_CUSTOMREQUEST   => "GET"
         ));
 
-        $response = curl_exec($curl);
-
+        $response       = curl_exec($curl);
         curl_close($curl);
-        echo $response;
+
+        $convert_data   = json_encode(json_decode($response));
+        $convert_data   = json_decode($convert_data, true);
+        $idr_result     = $convert_data['result'];
+
+        $data_fetch['idr'] = $idr_result;
+        // print_r($data_fetch);die;
+        echo json_encode($data_fetch);
 
 
         // API KEY CONVERT CURRENCY 250 kali
@@ -82,13 +119,13 @@
         //     "Content-Type: text/plain",
         //     "apikey: 5NzJvRh5JtgbND3QEWPVRRXNuoj2GH3m"
         // ),
-        //     CURLOPT_RETURNTRANSFER => true,
-        //     CURLOPT_ENCODING => "",
-        //     CURLOPT_MAXREDIRS => 10,
-        //     CURLOPT_TIMEOUT => 0,
-        //     CURLOPT_FOLLOWLOCATION => true,
-        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //     CURLOPT_CUSTOMREQUEST => "GET"
+        //     CURLOPT_RETURNTRANSFER   => true,
+        //     CURLOPT_ENCODING         => "",
+        //     CURLOPT_MAXREDIRS        => 10,
+        //     CURLOPT_TIMEOUT          => 0,
+        //     CURLOPT_FOLLOWLOCATION   => true,
+        //     CURLOPT_HTTP_VERSION     => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST    => "GET"
         // ));
 
         // $response = curl_exec($curl);

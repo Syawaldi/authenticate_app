@@ -1,3 +1,15 @@
+<?php
+    // // $data =   [{"id":"1","createdAt":"2021-06-09T09:37:05.527Z","price":"218.00","department":"Outdoors","product":"Salad"},
+    // //             {"id":"2","createdAt":"2021-06-09T10:11:46.024Z","price":"784.00","department":"Games","product":"Chips"}];
+    // $data = array(    'author'    => 'Ade Kurniawan',
+    //                     'website'  => "indonetsource",            
+    //                     'deskripsi' => 'Website Belajar Pemrorgraman' 
+    //                 );
+
+    // print_r($data);die;
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="no-js">
     <head>
